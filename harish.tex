@@ -1,0 +1,682 @@
+\documentclass[12pt]{report}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[ruled,noline,linesnumbered]{algorithm2e}
+\usepackage{setspace}
+\usepackage[top = 1in,bottom = 1in, left = 1in, right=1in]{geometry}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\linespread{1.5}
+
+
+
+%\onehalfspacing
+\begin{document}
+%\begin{@twocolumnfalse}
+\pagenumbering{arabic}
+
+
+
+
+
+
+
+
+\thispagestyle{empty}
+\begin{center}
+
+\textbf{\LARGE Data Driven Insights for Human Detection in Urban Search and Rescue Operations}\\[2em]
+
+\textit {A report submitted to the}\\[-0.5em]
+\textit{Indian Institute of Technology, Kharagpur}\\[-0.5em]
+\textit{in partial fulfilment of the requirements for the degree}\\[0.6em]
+of\\[0.6em]
+
+\textbf{\large Master of Technology}\\[-0.5em]
+%\textbf{(Hons.)}\\
+\textbf{}\\[0.5em]
+
+by\\[0.3em]
+\textbf{\large Harish G.V}\\[-0.3em]
+\textbf{\large [11MF3IM07]}\\[1em]
+
+under the supervision of\\[0em]
+\textbf{\large Prof. Jhareswar Maiti}\\[2em]
+
+\vspace{2em}
+\includegraphics[scale=0.3]{kgp-logo.pdf}
+\vspace{2em}
+
+\textbf{Department of Industrial Systems and Engineering}\\[-0.5em]
+\textbf{Indian Institute of Technology, Kharagpur}\\[1em]
+\textbf{March 2016}\\
+
+\copyright{ 2016 Harish G.V. All rights reserved.}
+
+\end{center}
+
+
+
+
+
+
+
+
+
+
+
+%\thispagestyle{empty}
+%\begin{center}
+%\Huge{Abstract}
+%\end{center}
+%\vspace{1cm}
+%
+%Neural machine translation is a new approach to machine translation, where we train a single, large neural network to maximize the translation performance. This is a radical departure from existing (phrase-based) machine translation approaches, where a translation system consists of many subcomponents which are optimized separately.
+%
+%Various deep learning architectures such as deep neural networks, convolutional deep neural networks and recurrent neural networks have been applied in Machine Translation of English and Foreign languages which have shown to produce state-of-the-art results. We study variants in architectures of Recurrent Neural Networks in MT. But we focus on English-Hindi pair mostly due to abundance of parallel data compared to other Indian languages. Finally we analyse and compare the above Recurrent Neural Network models and provide some sample translations.
+%
+%%With improvement in GPU technology, we are now able process massive data sets and complex algorithms which are computationally intensive with increasing rates.
+%
+%%In conferences, the opportunity of personal interactions between the fellow researchers opens up a new dimension for the citation network evolution. In this work, we propose a generic multiplex network framework to uncover the influence of the interactions in a conference on the appearance of the new citation links in future. We crawl the DBLP citation dataset and perform a case study on the leading conferences in the ``Artificial Intelligence'', ``Hardware \& Architecture'', ``Human-Computer Interaction'' and ``Networking \& Distributed Systems'' domains. Our empirical study is able to identify significant number of ``successful'' conference interactions which eventually results in ``induced'' citations. Interestingly, it is found that in most of the cases, it takes just 3 to 4 years to receive a citation from a participant interacted in a conference. It is also observed that the faster an interaction between two researchers can induce a citation between them, the longer this series of induced citations go on. Finally, we propose a machine learning based recommendation system `Whom-to-Interact', for the researchers attending a conference, to suggest them `with whom they should interact' for gaining incoming citations. The experimental results exhibit a decent performance of the system along with the impact of different regulating factors.
+%\pagebreak
+%\clearpage
+%
+%\thispagestyle{empty}
+%\begin{center}
+%\Huge{Acknowledgements}
+%\end{center}
+%\vspace{1cm}
+%
+%I take this opportunity to express my profound gratitude and deep regards to my guide Prof. Sudeshna Sarkar for the exemplary guidance, monitoring and constant encouragement throughout the course of this work. The blessing, help and guidance given by her time to time shall carry me a long way in the journey of life on which I am about to embark. I wish to acknowledge the encouragement received from research scholar Ayan Das for initiating my interest in this topic and also for his unparallelled help and motivation round the clock to carry out my project work. Lastly, I would like to thank all professors, lab administrators and friends for their help, moral support and wishes.
+%\pagebreak
+%\clearpage
+%
+%\listoffigures
+%\listoftables
+%
+%\tableofcontents
+%
+%\chapter{Introduction}
+%
+%
+%Neural Machine Translation is recently proposed approach for Machine Translation(MT). Unlike the traditional Statistical MT, Neural MT builds a single Neural Network which can be tuned to maximize the translation performance. Most of the models proposed recently for Neural MT belong to the family of encoder-decoders(Sutskever et al., 2014; Cho et al., 2014a) that encodes the source sentence into a fixed-length vector from which a decoder generates the translated sentence.
+%
+%The whole encoder-decoder system, which consists of the encoder and the decoder for a language pair, is jointly trained for maximizing the probability of the correct translation given the source sentence. Recently, Neural Machine Translation using encoder-decoder architecture has been producing comparable results with the Baseline systems for English-Foreign languages. We verify if it is true even in case of English-Indian Languages. We demonstrate basic un-regularized Recurrent Neural Network models and compare the results with that of Moses considering it as Baseline System. We also analyse the shortcomings of each of these models.
+%%The main drawback or bottleneck of this encoder-decoder architecture is that the neural network needs to encode the whole source sentence into a fixed size vector. This results in poor translation especially for long sentences.
+%
+%\chapter{Background}
+%
+%\section{Word Vectors}
+%
+%Each languages comprises of millions of words but they all aren't completely unrelated. Thus, word tokens can be encoded each into some vector that represents a point in some sort of ``word" space. This is
+%paramount for a number of reasons but the most intuitive reason is
+%that perhaps there actually exists some N-dimensional space (such
+%that $N \ll $ Vocabulary size) that is sufficient to encode all semantics of
+%our language. Each dimension (Eg. tenses, count, gender) would encode some meaning that we transfer using speech.
+%
+%\subsection{1-of-N Coding}
+%In this representation, every word is an $ \Re ^{|V| \times 1}$ vector with all 0's and one 1 at the index of that word in the sorted words, where $|V|$ is the size of our vocabulary.
+%
+%\subsection{SVD Based Methods}
+%For this class of methods to find word embeddings (otherwise known
+%as word vectors), we first loop over a massive dataset and accumulate
+%word co-occurrence counts in some form of a matrix $X$, and then
+%perform Singular Value Decomposition on $X$ to get a $USV^{T}$ decomposition.
+%We then use the rows of $U$ as the word embeddings for all words in our dictionary. Some of the SVD based methods are:
+%
+%\begin{enumerate}
+%\item Word-Document Matrix
+%\item Word-Word Co-occurrence Matrix
+%\end{enumerate}
+%
+%\subsection{Iteration Based Methods}
+%Model that will be able
+%to learn one iteration at a time and eventually be able to encode the
+%probability of a word given its context. We can set up this probabilistic model of known and unknown
+%parameters and take one training example at a time in order to learn
+%just a little bit of information for the unknown parameters based on
+%the input, the output of the model, and the desired output of the
+%model.
+%
+%At every iteration we run our model, evaluate the errors, and
+%follow an update rule that has some notion of penalizing the model
+%parameters that caused the error. This method is called "backpropagating" the errors. Some of these  $models^{\cite{word2vec1}}$ are
+%
+%\begin{enumerate}
+%\item Language Models (Unigrams, Bigrams etc)
+%\item Continuous Bag of Words $\text{Model}^{\cite{word2vec2}}$ (CBOW)
+%\item Skip-Gram $\text{Model}^{\cite{word2vec2}}$
+%\item Negative $\text{Sampling}^{\cite{word2vec2}}$
+%\end{enumerate}
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=3.5in]{simple_rnn.png}
+%\caption{Recurrent Neural Network}
+%\label{simple_rnn}
+%\end{figure}
+%
+%\section{Recurrent Neural Network (RNN)}
+%
+%%Recurrent neural network based language model : Toma´s Mikolov
+%
+%A recurrent neural network (RNN) is a neural network
+%that consists of a hidden state $h$ and an
+%optional output y which operates on a variable-length
+%sequence $x$ $=$ $(x_{1},\text{ . . . , }x_{T} )$. At each time
+%step $t$, the hidden state $h_{<t>}$ of the RNN is updated
+%by
+%\begin{equation}
+%h_{<t>} = f \left( h_{<t-1>}, x_{t} \right)
+%\end{equation}
+%where $f$ is a non-linear activation function.
+%
+%%$f$ may be as simple as an elementwise
+%%logistic sigmoid function and as complex
+%%as a long short-term memory (LSTM)
+%%unit (Hochreiter and Schmidhuber, 1997).
+%An RNN can learn a probability distribution
+%over a sequence by being trained to predict the
+%next symbol in a sequence. In that case, the output
+%at each timestep t is the conditional probability distribution
+%$p( x_{t}$ $|$ $x_{t−1},\text{ . . . }, x_{1})$. For example, a multinomial
+%distribution (1-of-K coding) can be output using a
+%softmax activation function
+%
+%\begin{equation}
+%p(x_{t,j} = 1 | x_{t-1},\text{ . . . }, x_{1}) = \frac{exp \left(
+%w_{j}h_{<t>} \right)}{\sum_{j'=1}^{K} exp \left( w_{j}h_{<t>} \right)}
+%\end{equation}
+%for all possible symbols $j$ $=$ $1,$ . . . , $K$, where $w_{j}$
+%are the rows of a weight matrix $W$. By combining
+%these probabilities, we can compute the probability
+%of the sequence $x$ using
+%\begin{equation}
+%p(x) = \prod_{t=1}^{T} p \left( x_{t}| x_{t-1},\text{ . . . , }x_{1} \right)
+%\end{equation}
+%
+%From this learned distribution, it is straightforward
+%to sample a new sequence by iteratively sampling
+%a symbol at each time step.
+%
+%RNNs do not use limited size of context as in forward-feed neural network \cite{ff_paper}. By using recurrent connections, information can cycle inside these networks for arbitrarily long time.
+%
+%%The network has an input layer x, hidden layer s (also called context layer or state) and output layer y. Input to the network in time $t$ is
+%%$x(t)$, output is denoted as $y(t)$, and $s(t)$ is state of the network
+%%(hidden layer). Input vector $x(t)$ is formed by concatenating
+%%vector $w$ representing current word, and output from neurons in
+%%context layer $s$ at time $t-1$. Input, hidden and output layers
+%%are then computed as follows:
+%%
+%%	\begin{equation}
+%%	x(t) = w(t) + s(t-1)
+%%	\end{equation}
+%%	\begin{equation}
+%%	s_{j}(t) = f \left( \sum_{i} x_{i}(t) u_{ji} \right)
+%%	\end{equation}
+%%	\begin{equation}
+%%	y_{k}(t) = g \left( \sum_{i} s_{j}(t) v_{kj} \right)
+%%	\end{equation}
+%%	where f(z) is sigmoid activation function:
+%%	\begin{equation}
+%%	f(z) = \frac{1}{1 + e^{-z}}
+%%	\end{equation}
+%%	where g(z) is softmax function:
+%%	\begin{equation}
+%%	g(z_{m}) = \frac{e^{z_{m}}}{\sum_{k} e^{z_{k}}}
+%%	\end{equation}
+%%
+%%
+%%
+%%For initialization, $s(0)$ can be set to vector of small values, like
+%%0.1 - when processing a large amount of data, initialization is
+%%not crucial. In the next time steps, $s(t+1)$ is a copy of $s(t)$. Input
+%%vector $x(t)$ represents word in time $t$ encoded using 1-of-N
+%%coding and previous context layer - size of vector $x$ is equal to
+%%size of vocabulary $|V|$ (this can be in practice $30,000$ - $200,000$)
+%%plus size of context layer. Size of context (hidden) layer, s is
+%%usually $30 - 500$ hidden units. Based on our experiments, size
+%%of hidden layer should reflect amount of training data - for large
+%%amounts of data, large hidden layer is needed.
+%%
+%%Networks are trained in several epochs, in which all data
+%%from training corpus are sequentially presented. Weights are
+%%initialized to small values (random Gaussian noise with zero
+%%mean and $0.1$ variance). To train the network, we may use the standard
+%%backpropagation algorithm with stochastic gradient descent.
+%%Starting learning rate is $α = 0.1$. After each epoch,
+%%the network is tested on validation data. If log-likelihood of
+%%validation data increases, training continues in new epoch. If no
+%%significant improvement is observed, learning rate α is halved
+%%at start of each new epoch. After there is again no significant improvement, training is finished. Convergence is usually
+%%achieved after $10-20$ epochs.
+%%
+%%In our experiments, networks do not overtrain significantly,
+%%even if very large hidden layers are used - regularization of networks
+%%to penalize large weights do not provide any significant
+%%improvements. Output layer $y(t)$ represents probability distribution
+%%of next word given previous word $w(t)$ and context $s(t - 1)$. Softmax ensures that this probability distribution is valid, ie., $y_{m}(t) > 0$ for any word $m$ and $\sum_{k} y_{k}(t) = 1$.
+%%At each training step, error vector is computed according to
+%%cross entropy criterion and weights are updated with the standard
+%%backpropagation algorithm:
+%%\begin{equation}
+%%\text{error(t) = desired(t) - y(t)}
+%%\end{equation}
+%%where desired is a vector using 1-of-N coding representing the
+%%word that should have been predicted in a particular context and
+%%y(t) is the actual output from the network.
+%
+%\pagebreak
+%\clearpage
+%
+%\section{RNN Encoder-Decoder for Machine Translation}
+%%In Traditional Language Models, the probability of the next word is usually conditioned on the window on n previous words. 
+%%This Markov Assumption is incorrect but necessary because storing all the previous words isn't practically possible. RNN do not make the Markov assumption and so can, in theory, take into account long-term dependencies when modeling natural language.
+%The RNN Encoder-Decoder architecture consists
+%of two recurrent neural networks (RNN) that
+%act as an encoder and a decoder pair. The encoder
+%maps a variable-length source sequence to a
+%fixed-length vector, and the decoder maps the vector
+%representation back to a variable-length target
+%sequence. The two networks are trained jointly to
+%maximize the conditional probability of the target
+%sequence given a source sequence.
+%The model is trained to learn the translation probability
+%of a source language sentence to a corresponding target language
+%sentence.\cite{enc_dec}
+% 
+%From a probabilistic perspective, this model
+%is a general method to learn the conditional probability distribution
+%over a variable-length sequence conditioned
+%on yet another variable-length sequence,
+%e.g. $p(y_{1},\text{ . . . , }y_{T'} | x_{1},\text{ . . . , }x_{T} )$, where one should note that the input and output sequence
+%lengths T and T' may differ.
+%
+%\subsection{Simple RNN}
+%
+%
+%The Simple RNN or just RNN, the encoder reads the input sequence sequentially and as it reads each symbol the hidden state of RNN changes accordingly as in equation (2.1). After reading the end of the sequence (marked by an end-of-sequence symbol),
+%the hidden state of the RNN is a summary \textbf{c} of the whole input sequence. The decoder of the proposed model is another
+%RNN which is trained to generate the output sequence
+%by predicting the next symbol $y_{t}$ given the
+%hidden state $h_{<t>}$
+%. 
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=3.5in]{enc_dec.png}
+%\caption{Simple RNN Encoder-Decoder}
+%\label{enc_dec}
+%\end{figure}
+%
+%However, unlike the RNN described
+%in Sec. $2.2$, both $y_{t}$ and $h_{<t>}$ are also conditioned
+%on $y_{t-1}$ and on the summary \textbf{c} of the input
+%sequence. Hence, the hidden state of the decoder
+%at time $t$ is computed by
+%
+%\begin{center} $h_{<t>}$ $=$ $f \left( h_{<t-1>}, y_{t}, \textbf{c} \right)$
+%\end{center}
+%
+%and similarly, the conditional distribution of the
+%next symbol is
+%
+%\begin{center} $P( y_{t}$ $|$ $y_{t−1},\text{ . . . }, y_{1}, \textbf{c})$ $=$ $g \left( h_{<t>}, y_{t}, \textbf{c} \right)$
+%\end{center}
+%for given activation functions f and g (the latter
+%must produce valid probabilities, e.g. with a softmax).
+%See Fig. 1 for a graphical depiction of the proposed
+%model architecture.
+%The two components of the proposed RNN
+%Encoder-Decoder are jointly trained to maximize
+%the conditional log-likelihood
+%\begin{equation}
+%max_{\theta} \frac{1}{N} \sum_{n=1}^{N} \log  p_{\theta} \left( y_{n} | x_{n} \right)
+%\end{equation}
+%where $\theta$ is the set of the model parameters and
+%each ($x_{n}$, $y_{n}$) is an (input sequence, output sequence)
+%pair from the training set. In our case,
+%as the output of the decoder, starting from the input,
+%is differentiable, we can use a gradient-based
+%algorithm to estimate the model parameters.
+%
+%Once the RNN Encoder–Decoder is trained, the
+%model can be used in two ways. One way is to use
+%the model to generate a target sequence given an
+%input sequence. On the other hand, the model can
+%be used to score a given pair of input and output
+%sequences, where the score is simply a probability
+%$p_{\theta}$($y$ $|$ $x$) from Eqs. (2.3) and (2.4).
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=5in]{birnn_fig.png}
+%\caption{General structure of the bidirectional recurrent neural network (Bi-RNN) shown unfolded in time for three time steps}
+%\label{birnn_fig}
+%\end{figure}
+%
+%\subsection{Bidirectional RNN (Bi-RNN)}
+%The usual RNN, described in Eq. (1), reads an input sequence x in order starting from the first
+%symbol $x_{1}$ to the last one $x_{T_{x}}$
+%. However, in the proposed scheme, we would like the annotation
+%of each word to summarize not only the preceding words, but also the following words. Hence, we use a bidirectional RNN \cite{birnn}.
+%
+%The state neurons of a
+%regular RNN  in the encoder part are split, a part for the forward direction (forward hidden states) and a part for the backward direction (backward hidden states). Outputs from forward hidden states are
+%not connected to inputs of backward hidden states, and vice versa.
+%This leads to the general structure that can be seen in Fig. \ref{birnn_fig},
+%where it is unfolded over three time steps. Note that without the backward hidden
+%states, this
+%structure simplifies to a regular unidirectional forward RNN,
+%as shown in Fig. \ref{enc_dec}. If the forward hidden states are taken out, a
+%regular RNN with a reversed input sequence. With both
+%directions taken care of in the same network, input information
+%in the past and the future of the currently evaluated time
+%can directly be used to minimize the objective function without
+%the need for delays to include future information, as for the
+%regular unidirectional RNN discussed above.
+%
+%In theory, RNNs are absolutely capable of handling such ``long-term dependencies”. The problem was explored in depth by Hochreiter (1991) [German] and Bengio, et al. (1994)
+%Thankfully, LSTMs covered in next section don’t have this problem!
+%\subsection{Long Stort-term Memory Networks (LSTMs)}
+%
+%Long Short Term Memory networks – usually just called “LSTMs” – are a special kind of RNN, capable of learning long-term dependencies. They were introduced by Hochreiter $\&$ Schmidhuber (1997), and were refined and popularized by many people. They work tremendously well on a large variety of problems, and are now widely used.
+%
+%LSTMs are explicitly designed to avoid the long-term dependency problem. Remembering information for long periods of time is practically their default behavior.
+%
+%All recurrent neural networks have the form of a chain of repeating modules of neural network. In standard RNNs, this repeating module will have a very simple structure, such as a single tanh layer.
+%\begin{figure}
+%\centering
+%\includegraphics[width=5in]{lstm1.png}
+%\caption{The repeating module in the standard RNN contains a single layer}
+%\label{lstm1}
+%\end{figure}
+%LSTMs also have this chain like structure, but the recurring module has a different structure. Instead of having a single neural network layer, there are four, interacting in a very special way.
+%\begin{figure}
+%\centering
+%\includegraphics[width=5in]{lstm2.png}
+%\caption{The repeating module in an LSTM contains four interacting layers}
+%\label{lstm2}
+%\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[width=5in]{lstm3.png}
+%\caption{}
+%\label{lstm3}
+%\end{figure}
+%As shown in Fig \ref{lstm3}, each line carries an entire vector, from the output of one node to the inputs of others. The pink circles represent pointwise operations, like vector addition, while the yellow boxes are learned neural network layers. Lines merging denote concatenation, while a line forking denote its content being copied and the copies going to different locations.
+%
+%\begin{figure}[!hbt]
+%\centering
+%\includegraphics[width=5in]{lstm4.png}
+%\label{lstm4}
+%\end{figure}
+%
+%\textbf{Core Idea behind LSTM:}
+%
+%The key to LSTMs is the cell state, the horizontal line running through the top of the diagram. The cell state is kind of like a conveyor belt. It runs straight down the entire chain, with only some minor linear interactions. It’s very easy for information to just flow along it unchanged. The LSTM does have the ability to remove or add information to the cell state, carefully regulated by structures called gates.
+%
+%Gates are a way to optionally let information through. They are composed out of a sigmoid neural net layer and a pointwise multiplication operation. The sigmoid layer outputs numbers between zero and one, describing how much of each component should be let through. A value of zero means ``let nothing through," while a value of one means ``let everything through!". An LSTM has three of these gates, to protect and control the cell state.
+%
+%
+%
+%
+%\chapter {Dataset} 
+% 
+% In order to perform Machine Translation, mainly we need two kinds of information\\
+% (a) A Large Monolingual corpus to build the word vectors in both the source and the target languages.\\
+%(b) Parallel corpus between the source and the target languages for training and testing the corresponding Neural Network.
+%
+%%Other than collecting the real data from various reliable sources,
+%%we also use a synthetic dataset to validate our claims.
+%%\cite{tanmoy}.287210 sentences + 25k + 25k
+%%\subsection{Real Data Collection}
+%The Monolingual Hindi Corpus was obtained from the ILTP-DC called ILCI corpus which is about 10GB. The Monolingual English Corpus used was obtained from wikipedia dumps. The English-Hindi bidirectional Corpus comprises of a total of 337,210 parallel sentences of which 287,210 sentences were obtained from WMT2014 comprising data in multiple domains and 50,000 sentences from ILCI Corpus corresponding to Tourism and Health domains.
+%
+%
+%\chapter{Methodology}
+%
+%Simple RNN, Bidirectional RNN and LSTM models for Machine Translation from English-Hindi are created in following steps: 
+%
+%\section{Corpus Cleaning}
+%Both monolingual and parallel corpus contains characters other than word tokens. So the corpus was appropriately cleaned and tokenized by removing these special characters except for the end of sentence markers. From the parallel sentences only 96,820 were selected having the sentence length between 4 and 12 inclusive.
+%96,000 parallel sentences were used for training the RNN and the rest for evaluation. 
+%
+%\section{Building Word Vectors}
+%From the monolingual corpus word vectors are built using \cite{word2vec1} word2vec with Skipgram model and negative sampling to generate the embeddings. The dimension of each embedding was chosen to be 500. So we generate word embeddings in both the languages separately. The source and the target sentences would be encoded using these word embeddings and used as i/o to the encoder-decoder RNN models.
+%
+%\section{Training and Evaluating RNN Models}
+%Theano was used in implementing the above language models, which has support of using GPU for optimisation. The Simple RNN (or simply RNN) and LSTM models used a single encoder and two decoders one for training and other for evaluation with a single layer each. The same encoder is used both for training and evaulation as the sentence is incoded in the same way in both the cases. The Bi-RNN model used a single encoder but has two layers in encoder, one for learning forward input sequence and other for reverse input sequence.
+%The number of hidden neurons in each hidden layer of RNNs was chosen to be 2000 both for the encoders and decoders.
+%
+%Currently the simple RNN has terminated after 37 epochs giving its best result. Bi-RNN is in its 7th epoch and LSTM in 25th epoch. The results were current of these epochs respectively.
+%
+%Also moses was used as a baseline system to compare with the above models.
+%
+%
+%
+%\chapter{Results}
+%We start this section by defining metric to measure the quality of MT. Next we see some sample translations by different models like RNN, LSTM etc.
+%%The properties of the induced collaboration links also can be realized by the similar
+%%metrics, hence we use use these metrics in the suitable place.
+%%Next, we identify the influence of personal interactions
+%%on citation formation and subsequently explore their properties. In our work, we check the impact of an interaction on the
+%%persons participating in it as well as their groups. So, we define our evaluation metrics for both the cases separately
+%%in the following subsection. First we define the metrics we use to analyze the effect of interaction on individual's career
+%%and then we extend the same metrics for analyzing the effect on their groups' prospect.
+%% We do a similar kind of study on the formation of
+%% new collaborations, as a result of the past citations.
+%
+%\section{Evaluation metric: BLEU}\label{sec:metric}
+%\emph{BLEU (Bilingual Evaluation Understudy)} is an algorithm for evaluating the quality of text which has been machine-translated from one language to another. BLEU’s output is always a number between 0 and 1. This value indicates how similar the candidate and reference texts are, with values closer to 1 representing more similar texts.
+%
+% \begin{table*}[t]
+% \begin{center}
+%  \begin{tabular}{|c|c|c|}
+%    \hline
+%            \textbf{Model} & \textbf{Current Iteration} & \textbf{BLEU score} \\ \hline
+% Moses & -  & $20.89 \times 10\textsuperscript{-2}$  \\ \hline
+% Simple RNN &  36 (final)   & $11.53 \times 10\textsuperscript{-2}$  \\ \hline
+%Bidirectional RNN  &  8 (running)   & $2.31 \times 10\textsuperscript{-2}$  \\ \hline
+%LSTM+RNN  &  27 (running)   & $11.08 \times 10\textsuperscript{-2}$  \\\hline
+%   \end{tabular}
+%  \caption{Comparison of BLEU scores for English-Hindi MT}
+%  \vspace{-0.4cm}
+%  \label{table1}
+%\end{center}
+%\end{table*}
+%
+%\subsection{Comparison of BLEU scores for En-Hi Machine Translation}
+%%$I_{CR}$ ($G_{CR}$)
+%\textbf{Moses} is a statistical MT system that allows you to automatically train translation models for any language pair. From the trained model, an efficient search algorithm quickly finds the highest probability translation among the exponential number of choices. The BLEU score from the translation from moses can be taken as the state-of-art score or Baseline score for a language pair. 
+%
+%From the above parallel En-Hi data, 96,000 sentences are used for training the SRILM language model and Mert. Evaluation was done on 820 En-Hi sentences. 30,000 parallel sentences randomly generated from the above 96,000 sentences were used for tuning the weights. 
+%We found a BLEU score of 0.2089 for English-Hindi translation using Moses on the above dataset.  
+%
+%After 37 iterations, the simple RNN gives a BLEU = 0.1153. Bi-RNN after 8 iterations gives BLEU = 0.0231 and LSTM after 27 iterations gives BLEU = 0.1108 .
+%
+%As it can be seen in the Fig.~\ref{BLEU} among RNNs LSTM appears to outperform Bi-RNN which is slightly better compared to simple RNN. The BLEU score of Moses undoubtedly shows that it is long way to go for RNN models to reach this standard. One of the reasons behind this is due to the fact that regularization hasn't been used while building the RNN models. Also a single layer has been used, which could be made deep enough by stacking multiple layers in both encoder as well as decoder. 
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=6.5in]{1.png}
+%\caption{Comparison of BLEU scores in En-Hi MT}
+%\vspace{-0.4cm}
+%\label{BLEU}
+%\end{figure}
+%
+%%\begin{equation}I_{CR}=\frac{A_S}{A_T}\end{equation}
+%%From this, the definition of the domain-wise overall conversion rate can be simply
+%%extended by taking the ratio of the sum of all the `\emph{successful}' authors attending any conference in a domain
+%%and total number of participants of all the conferences in that domain.
+%%Conversion rate realizes the influence of personal interactions on the appearance of citation links and plays a
+%%key role behind the claims made in this paper. Extending this concept for group interactions, we define group
+%%based conversion ratio ($G_{CR}$) as the fraction of `\emph{successful}' groups out of the
+%%total groups in that conference (or domain) during that time-period.
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=6.5in]{2.png}
+%\caption{BLEU scores vs sentence lengths in En-Hi MT}
+%\vspace{-0.4cm}
+%\label{lenB}
+%\end{figure}
+%
+%\subsection{Variation of BLEU scores with sentence lengths in English-Hindi MT}
+%It is expected that as length of the sentence increases, it is difficult to make a good translation as it is difficult for the words in beginning of the sentence to propagate through the Encoder. It can be seen in the Fig.~\ref{lenB} LSTM's perform better as expected as they information for long periods of time. The Bi-RNN has low values as it hasn't completed enough iterations to be comparable with other models.
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=6.5in]{3.png}
+%\caption{Comparison of BLEU scores for sentence prefixes in En-Hi MT}
+%\vspace{-0.4cm}
+%\label{prefix}
+%\end{figure}
+%
+%The plot of BLEU score for each prefix of the sentence is plotted from prefix of lengths 4 until 20 as shown in Fig.~\ref{prefix}. For RNN models, the BLEU score is found to be monotonically decreasing unlike Moses. The reason is due to the fact that the decoder output function is based its previous outputted words. This can't be avoided as we don't know the actual length of the target sentence. 
+%This also shows the biasness of RNN models to give a good translation at the start of the sentence and as the sentence's length increases, the probability of correctly predicting the next word decreases. This can also be observed from below Fig.~\ref{prefix}.
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=6.5in]{4.png}
+%\caption{Candidate to Reference sentences Ratio comparison for En-Hi MT}
+%\vspace{-0.4cm}
+%\label{ratio}
+%\end{figure}
+%
+%\subsection{Candidate-Reference sentences ratio for En-Hi MT}
+%In the above Fig. \ref{ratio}, the ratio of Candidate to reference sentence's length close to 1 indicates an ideal length of translation according to the reference's sentence length.
+%LSTM and RNN are closer to 1 and Bi-RNN is expected to perform better in future iterations.
+%
+%
+%\section{Example Translations En-Hi}\label{sec_int}
+%
+%\begin{figure}[!hbt]
+%\includegraphics[width=3in]{t1.png}%Fig11.png}
+%\end{figure}
+%
+%\begin{figure}[!hbt]
+%\includegraphics[width=4in]{t2.png}%Fig11.png}
+%\end{figure}
+%
+%\begin{figure}[!hbt]
+%\includegraphics[width=3.5in]{t3.png}%Fig11.png}
+%\end{figure}
+%
+%\begin{figure}[!hbt]
+%\includegraphics[width=5in]{t4.png}%Fig11.png}
+%\end{figure}
+%
+%
+%
+%
+%
+%%\chapter{Future Work}
+% 
+% 
+%
+%\bibliographystyle{plain}
+%\begin{thebibliography}{11}
+%\addcontentsline{toc}{section}{References}
+%
+%%\bibitem{physica}
+%%A.~L. Barab{\'a}si, H.~Jeong, Z.~N{\'e}da, E.~Ravasz, A.~Schubert, and
+%%  T.~Vicsek.
+%%\newblock Evolution of the social network of scientific collaborations.
+%%\newblock {\em Physica A: Statistical Mechanics and its Applications},
+%%  311(3-4):590 -- 614, 2002.
+%
+%\bibitem{word2vec1}
+%Mikolov, Tomas, et al. 
+%\newblock "Efficient estimation of word representations in vector space." 
+%\newblock arXiv preprint arXiv:1301.3781 (2013).
+%
+%\bibitem{word2vec2}
+%Mikolov, Tomas, et al. 
+%\newblock "Distributed representations of words and phrases and their compositionality." 
+%\newblock Advances in neural information processing systems. 2013.
+%
+%\bibitem{rnn_paper}
+%Mikolov, Tomas, et al. 
+%\newblock "Recurrent neural network based language model." 
+%\newblock INTERSPEECH 2010, 11th Annual Conference of the International Speech Communication Association, Makuhari, Chiba, Japan, September 26-30, 2010. 2010.
+%  
+%\bibitem{ff_paper}
+%Yadav, Neha, Anupam Yadav, and Manoj Kumar. 
+%\newblock ``Preliminaries of Neural Networks." An Introduction to Neural Network Methods for Differential Equations. 
+%\newblock Springer Netherlands, 2015. 17-42.
+%
+%\bibitem{sim_rnn}
+%Jeffrey L. Elman. 
+%\newblock Finding Structure in Time. 
+%\newblock Cognitive Science, 14, 179-211
+%
+%\bibitem{enc_dec}
+%Cho, Kyunghyun, et al. 
+%\newblock "Learning phrase representations using rnn encoder-decoder for statistical machine translation." 
+%\newblock arXiv preprint arXiv:1406.1078 (2014).
+%
+%\bibitem{birnn}
+%Schuster, Mike, and Kuldip K. Paliwal. 
+%\newblock "Bidirectional recurrent neural networks." 
+%\newblock Signal Processing, IEEE Transactions on 45.11 (1997): 2673-2681.
+%
+%\bibitem{iclr}
+%Bahdanau, Dzmitry, Kyunghyun Cho, and Yoshua Bengio. 
+%\newblock "Neural machine translation by jointly learning to align and translate."
+%\newblock arXiv preprint arXiv:1409.0473 (2014).
+%
+%
+%%\bibitem{libsvm}
+%%C.-C. Chang and C.-J. Lin.
+%%\newblock {LIBSVM}: A library for support vector machines.
+%%\newblock {\em ACM Transactions on Intelligent Systems and Technology},
+%%  2:27:1--27:27, 2011.
+%%\newblock Software Available at http://www.csie.ntu.edu.tw/~cjlin/libsvm.
+%%
+%%\bibitem{net_sci}
+%%D.~J. de~Solla~Price.
+%%\newblock Networks of scientific papers.
+%%\newblock {\em Science}, 149(3683):510--515, 1965.
+%%
+%%\bibitem{impact_pub}
+%%D.~Dieks and H.~Chang.
+%%\newblock Differences in impact of scientific publications: Some indices
+%%  derived from a citation analysis.
+%%\newblock {\em Social Studies of Science}, 6(2):pp. 247--267, 1976.
+%%
+%%\bibitem{10.1371/journal.pone.0024926}
+%%Y.-H. Eom and S.~Fortunato.
+%%\newblock Characterizing and modeling citation dynamics.
+%%\newblock {\em PLoS ONE}, 6(9):e24926, 09 2011.
+%%
+%%\bibitem{topic}
+%%Q.~He, B.~Chen, J.~Pei, B.~Qiu, P.~Mitra, and C.~L. Giles.
+%%\newblock Detecting topic evolution in scientific literature: how can citations
+%%  help?
+%%\newblock In {\em CIKM}, pages 957--966, 2009.
+%%
+%%\bibitem{large_evolve}
+%%E.~A. Leicht, G.~Clarkson, K.~Shedden, and Newman.
+%%\newblock {Large-scale structure of time evolving citation networks}.
+%%\newblock {\em The European Physical Journal B - Condensed Matter and Complex
+%%  Systems}, 59(1):75--83, 2007.
+%%
+%%\bibitem{Info_diff}
+%%X.~Shi, B.~L. Tseng, and L.~A. Adamic.
+%%\newblock Information diffusion in computer science citation networks.
+%%\newblock In {\em ICWSM}, 2009.
+%%
+%%\bibitem{citation_dynamics}
+%%L.~\v{S}ubelj and M.~Bajec.
+%%\newblock Model of complex networks based on citation dynamics.
+%%\newblock In {\em Proceedings of the 22Nd International Conference on World
+%%  Wide Web Companion}, WWW '13 Companion, pages 527--530, Republic and Canton
+%%  of Geneva, Switzerland, 2013. International World Wide Web Conferences
+%%  Steering Committee.
+%
+%\end{thebibliography}
+
+\end{document}

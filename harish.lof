@@ -1,0 +1,15 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Recurrent Neural Network}}{11}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Simple RNN Encoder-Decoder}}{13}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces General structure of the bidirectional recurrent neural network (Bi-RNN) shown unfolded in time for three time steps}}{14}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces The repeating module in the standard RNN contains a single layer}}{15}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces The repeating module in an LSTM contains four interacting layers}}{15}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces }}{16}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Comparison of BLEU scores in En-Hi MT}}{21}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces BLEU scores vs sentence lengths in En-Hi MT}}{22}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Comparison of BLEU scores for sentence prefixes in En-Hi MT}}{23}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Candidate to Reference sentences Ratio comparison for En-Hi MT}}{23}
